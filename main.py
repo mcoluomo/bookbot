@@ -1,29 +1,30 @@
+from stats import count_words, sort_on
+import sys
+
+if len(sys.argv) != 2:
+    print("Usage: python3 main.py <path_to_book>")
+    sys.exit(1)
+
 def main():
 
-    file_path = "books/frankenstein.txt"
-    with open(file_path) as f:
+    with open(sys.argv[1]) as f:
         file_contents = f.read()
 
     word_count = count_words(file_contents)
     dict_of_chars = count_of_chars(file_contents)
     dict_sort_chars = sort_on(dict_of_chars)
 
-    print(f"--- Begin report of {file_path} ---")
-    print(f"{word_count} words found in the document")
-    print()
+    print("============ BOOKBOT ============")
+    print(f"Analyzing book found at {sys.argv[1]}...")
+    print("----------- Word Count ----------")
+    print(f"Found {word_count} total words")
+    print("--------- Character Count -------")
 
     for char in dict_sort_chars:
         count = dict_sort_chars[char]
-        print(f"The '{char}' character was found {count} times")
+        print(f"{char}: {count}")
 
-    print("--- End report ---")
-
-def count_words(file_contents):
-    file_contents = file_contents.split()
-    count = 0
-    for word in file_contents:
-        count += 1
-    return count
+    print("============= END ===============")
 
 def count_of_chars(file_contents):
     num_of_chars = {}
@@ -33,11 +34,5 @@ def count_of_chars(file_contents):
         elif char in "abcdefghijklmnopqrstuvwxyz" and char  in num_of_chars:
             num_of_chars[char] += 1
     return num_of_chars
-
-def sort_on(dict):
-    myKeys = list(dict.keys())
-    myKeys.sort()
-
-    return {i: dict[i] for i in myKeys}
 
 main()
